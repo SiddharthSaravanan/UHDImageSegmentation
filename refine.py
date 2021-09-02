@@ -435,9 +435,12 @@ def thinning(img1, iterations):
 			temp = np.copy(img)
 			temp = cv2.morphologyEx(src=temp, op=cv2.MORPH_HITMISS, kernel=b[j],borderType=cv2.BORDER_REPLICATE)
 			img = img - temp #center of the SE always has 1 (foreground)
+		if np.count_nonzero(img) <=16:
+			print("thinning stopped at %d"%(i))
+			break
 	return img
 
-def gen_seed(thin,thick,x):
+def gen_seed(thin,thick,x,prune):
 
 	#thinning
 	thin = thinning(thin,x)
@@ -471,7 +474,7 @@ def gen_seed(thin,thick,x):
 		xnp1 = cv2.dilate(xn,se3,iterations = 1)
 		xnp1 = cv2.bitwise_and(xnp1,union)
 
-		if np.array_equal(xn,xnp1) or no_iter>=13:
+		if np.array_equal(xn,xnp1) or no_iter>=prune:
 			break
 
 	union = union - xn
@@ -485,11 +488,20 @@ def gen_seed(thin,thick,x):
 	return thin,thick
 
 
-def refinement(dataset,x,b):
+def refinement(dataset,x,prune,b):
 
 	no=0
 	imgs_folder = './upscale/upscaled_'+dataset+'/'
 	grad_folder = './gradients/grad_images_'+dataset+'/'
+
+	if dataset == 'BIG':
+		form = '.jpg'
+	if dataset == 'pascal':
+		form = '.png'
+		prune = 2
+
+
+	print(x)
 	
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
@@ -499,7 +511,7 @@ def refinement(dataset,x,b):
 		print(no)
 		
 		img = cv2.imread(file,0)
-		graph = cv2.imread(grad_folder+fname.split('.')[0]+'.jpg',0)
+		graph = cv2.imread(grad_folder+fname.split('.')[0]+form,0)
 
 		# print(img.shape)
 		# print(grad_folder+fname)
@@ -524,7 +536,9 @@ def refinement(dataset,x,b):
 			thick[thick>100] = 255
 			thick = 255-thick
 
-			thin,thick = gen_seed(thin,thick,x)
+			if dataset == 'BIG':
+				print(prune)
+				thin,thick = gen_seed(thin,thick,x,prune)
 
 			thick = np.clip(thick,0,127)
 			seed = thin + thick
