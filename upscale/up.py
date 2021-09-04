@@ -6,7 +6,7 @@ import math
 import os
 
 
-def find_extra(diffs,img,argmax_second,class_no):
+def find_extra(diffs,img,argmax_second,class_no,prob):
 	not_sure = np.copy(diffs)
 	perc=0
 	num=0
@@ -19,7 +19,7 @@ def find_extra(diffs,img,argmax_second,class_no):
 
 	res = np.copy(im)
 
-	for prob_diff in [0.005]:
+	for prob_diff in [prob]:
 		if (np.count_nonzero(im))==0:
 			break
 		not_sure = np.copy(diffs)
@@ -37,13 +37,13 @@ def find_extra(diffs,img,argmax_second,class_no):
 
 	return (res-im)
 
-def find_not_sure(diffs,img,argmax,class_no):
+def find_not_sure(diffs,img,argmax,class_no,prob):
 	not_sure = np.copy(diffs)
 	perc=0
 	num=0
 	im = np.copy(img)
 
-	for prob_diff in [0.01,0]:
+	for prob_diff in [prob,0]:
 		if (np.count_nonzero(im))==0:
 			break
 		not_sure = np.copy(diffs)
@@ -128,10 +128,11 @@ def upscale(dataset,network,upscale,ns):
 				class_no=18
 			elif obj=="train":
 				class_no=19
-			elif obj=="tv":
+			elif obj=="tv" or obj=="tvmonitor":
 				class_no=20
 			else:
 				class_no=0
+
 
 		arr = np.load(file)
 
@@ -146,11 +147,8 @@ def upscale(dataset,network,upscale,ns):
 		if ns:
 			arr_max = np.max(arr, axis=2)
 			arr_copy = np.copy(arr)
-
-			for i in range(arr_copy.shape[0]):
-				for j in range(arr_copy.shape[1]):
-					arr_copy[i][j][argmax[i][j]]=0
-
+			
+			arr_copy[np.arange(arr.shape[0])[:,None],np.arange(arr.shape[1]),argmax] = 0
 
 			argmax_second = np.argmax(arr_copy,axis=2)
 			arr_max_second = np.max(arr_copy,axis=2)
@@ -162,8 +160,12 @@ def upscale(dataset,network,upscale,ns):
 		img[img!=255]=0
 
 		if ns:
-			not_sure = find_not_sure(diffs,img,argmax,class_no)
-			extra = find_extra(diffs,img,argmax_second,class_no)
+			if dataset == 'BIG':
+				not_sure = find_not_sure(diffs,img,argmax,class_no,0.0093)
+				extra = find_extra(diffs,img,argmax_second,class_no,0.0093)
+			elif dataset == 'pascal':
+				not_sure = find_not_sure(diffs,img,argmax,class_no,0.03)
+				extra = find_extra(diffs,img,argmax_second,class_no,0.015)
 
 			img[not_sure==255]=127
 			img[extra==255]=127
