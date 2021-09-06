@@ -4,10 +4,10 @@ import random
 import math
 import os
 
+
 def eval_iou(dataset,beta):
-	txt_filename = "./iou_evaluation/iou_"+dataset+"_"+str(beta)+".txt"
-	#remove beta
 	
+	txt_filename = "./iou_evaluation/iou_"+dataset+"_"+str(beta)+".txt"
 	no=0
 	file1=open(txt_filename,"w")
 	file1.write('No.,Im name,TP,FP,FN,IoU')
