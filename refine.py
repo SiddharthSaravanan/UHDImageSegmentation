@@ -537,14 +537,11 @@ def refinement(dataset,x,prune,b):
 			thick = 255-thick
 
 			if dataset == 'BIG':
-				# print(prune)
+				print(prune)
 				thin,thick = gen_seed(thin,thick,x,prune)
-
 			thick = np.clip(thick,0,127)
 			seed = thin + thick
-			
 			#random walker
-			print(b)
 			img3 = random_walk(graph, seed, beta=b, mode='bf',multichannel = False)
 
 			img1 = np.copy(img3)
