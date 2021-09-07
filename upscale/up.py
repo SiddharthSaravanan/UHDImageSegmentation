@@ -70,7 +70,7 @@ def upscale(dataset,network,upscale,ns):
 		upscale = False
 
 
-	probs_folder = './datasets/'+dataset+'/segmentation_probs/'
+	probs_folder = './datasets/'+dataset+'/segmentation_results/'
 	output_folder = './upscale/upscaled_'+dataset+'/'
 
 	for fname in os.listdir(probs_folder):
@@ -147,7 +147,7 @@ def upscale(dataset,network,upscale,ns):
 		if ns:
 			arr_max = np.max(arr, axis=2)
 			arr_copy = np.copy(arr)
-			
+
 			arr_copy[np.arange(arr.shape[0])[:,None],np.arange(arr.shape[1]),argmax] = 0
 
 			argmax_second = np.argmax(arr_copy,axis=2)
@@ -161,8 +161,8 @@ def upscale(dataset,network,upscale,ns):
 
 		if ns:
 			if dataset == 'BIG':
-				not_sure = find_not_sure(diffs,img,argmax,class_no,0.0093)
-				extra = find_extra(diffs,img,argmax_second,class_no,0.0093)
+				not_sure = find_not_sure(diffs,img,argmax,class_no,0.110)
+				extra = find_extra(diffs,img,argmax_second,class_no,0.110)
 			elif dataset == 'pascal':
 				not_sure = find_not_sure(diffs,img,argmax,class_no,0.03)
 				extra = find_extra(diffs,img,argmax_second,class_no,0.015)
