@@ -1,7 +1,6 @@
 import matlab.engine
 
 def gen_grad(dataset):
-
 	eng = matlab.engine.start_matlab()
 	eng.addpath('./gradients/edges-master');
 
@@ -11,5 +10,4 @@ def gen_grad(dataset):
 		eng.grads_pascal(nargout=0)
 	elif dataset == 'custom':
 		eng.grads_custom(nargout=0)
-
 	eng.quit()
