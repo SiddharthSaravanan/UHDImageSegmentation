@@ -5,9 +5,9 @@ import math
 import os
 
 
-def eval_iou(dataset,beta):
+def eval_iou(dataset):
 	
-	txt_filename = "./iou_evaluation/iou_"+dataset+"_"+str(beta)+".txt"
+	txt_filename = "./iou_evaluation/iou_"+dataset+".txt"
 	no=0
 	file1=open(txt_filename,"w")
 	file1.write('No.,Im name,TP,FP,FN,IoU')
