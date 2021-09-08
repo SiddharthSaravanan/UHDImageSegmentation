@@ -7,7 +7,6 @@ from upscale import upscale_softmax,up
 import refine
 from iou_evaluation import evaluate
 
-
 parser = argparse.ArgumentParser(description='Refine and evaluate')
 parser.add_argument('--dataset', type=str, default='BIG', choices = ['BIG','pascal','custom'], help='dataset to be used')
 parser.add_argument('--network', type=str, default= 'deeplab', choices = ['deeplab','fcn'], help='network used to generate segmentation')
@@ -20,7 +19,6 @@ parser.add_argument('--prune', type=int, default=13, help='Number of iterations 
 parser.add_argument('--evaluate', type=bool, default=True, help='set to True if you want to evaluate the results using gt_images')
 
 args = parser.parse_args()
-
 #------------------------------------------------
 
 def main():
