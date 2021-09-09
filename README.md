@@ -1,3 +1,3 @@
 # UHDImageSegmentation
 
-Refinement of segmentations made on downsampled UHD images.
+Refinement of segmentations on downsampled UHD images.
