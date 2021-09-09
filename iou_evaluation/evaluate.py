@@ -6,7 +6,6 @@ import os
 
 
 def eval_iou(dataset):
-	
 	txt_filename = "./iou_evaluation/iou_"+dataset+".txt"
 	no=0
 	file1=open(txt_filename,"w")
@@ -19,7 +18,7 @@ def eval_iou(dataset):
 		file = os.path.join(imgs_folder,fname)
 
 		no+=1
-		file1 = open(txt_filename, "a")  # append mode
+		file1 = open(txt_filename, "a")
 		file1.write("\n")
 		file1.write(str(no))
 		file1.write(",")
