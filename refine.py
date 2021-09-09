@@ -13,6 +13,7 @@ from skimage._shared import utils
 from skimage._shared.utils import warn
 
 #------------------------------------------------
+
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
 	old_del = umfpack.UmfpackContext.__del__
@@ -540,6 +541,7 @@ def refinement(dataset,x,prune,b):
 				thin,thick = gen_seed(thin,thick,x,prune)
 
 			thick = np.clip(thick,0,127)
+			
 			seed = thin + thick
 			
 			img3 = random_walk(graph, seed, beta=b, mode='bf',multichannel = False)
