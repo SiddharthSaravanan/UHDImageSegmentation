@@ -22,10 +22,11 @@ args = parser.parse_args()
 
 #------------------------------------------------
 
+
 def main():
 
 	#generate dollar gradient images
-	# gen_gradient.gen_grad(args.dataset)
+	gen_gradient.gen_grad(args.dataset)
 
 	#upscaling
 	# upscale_softmax.gen_probs(args.dataset)
