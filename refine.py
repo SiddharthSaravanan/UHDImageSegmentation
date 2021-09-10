@@ -13,7 +13,6 @@ from skimage._shared import utils
 from skimage._shared.utils import warn
 
 #------------------------------------------------
-
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
 	old_del = umfpack.UmfpackContext.__del__
@@ -524,13 +523,8 @@ def refinement(dataset,x,prune,b):
 			thin = np.copy(img)
 			thick = np.copy(img)
 
-			# thin[thin!=255] = 0
-			# thick[thick!=127] = 0
-			# thick[thick==127] = 255
-
 			if np.count_nonzero(img == 255) == 0:
 				thin[thin>100] = 255
-
 			
 			thin[thin<200] = 0
 			thick[thick>100] = 255
