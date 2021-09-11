@@ -20,8 +20,6 @@ parser.add_argument('--evaluate', type=bool, default=True, help='set to True if 
 
 args = parser.parse_args()
 
-#------------------------------------------------
-
 
 def main():
 
