@@ -20,6 +20,7 @@ def eval_iou(dataset):
 		no+=1
 		file1 = open(txt_filename, "a")
 		file1.write("\n")
+		
 		file1.write(str(no))
 		file1.write(",")
 		file1.write(fname.split('.')[0])
