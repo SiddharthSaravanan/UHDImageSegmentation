@@ -12,7 +12,7 @@ from scipy import sparse, ndimage as ndi
 from skimage._shared import utils
 from skimage._shared.utils import warn
 
-#------------------------------------------------
+#----------------------------------------------
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
 	old_del = umfpack.UmfpackContext.__del__
@@ -544,6 +544,7 @@ def refinement(dataset,x,prune,b):
 			img1 = (img1-1)*255
 
 			img1 = cv2.medianBlur(img1,7)
+			
 			_,img1 = cv2.threshold(img1,200,255,cv2.THRESH_BINARY)
 
 		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,img1)
