@@ -11,6 +11,7 @@ def find_extra(diffs,img,argmax_second,class_no,prob):
 	not_sure = np.copy(diffs)
 	
 	perc=0
+	
 	num=0
 
 	im = np.copy(img)
