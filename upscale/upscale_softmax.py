@@ -6,7 +6,9 @@ import os
 def gen_probs(dataset):
 	
 	no=0
+	
 	input_folder = './datasets/'+dataset+'/segmentation_results/'
+	
 	output_folder = './datasets/'+dataset+'/segmentation_probs/'
 
 	for filename in os.listdir(input_folder):
