@@ -7,11 +7,8 @@ import os
 
 
 def find_extra(diffs,img,argmax_second,class_no,prob):
-	
 	not_sure = np.copy(diffs)
-	
 	perc=0
-	
 	num=0
 
 	im = np.copy(img)
@@ -64,7 +61,7 @@ def find_not_sure(diffs,img,argmax,class_no,prob):
 
 	return not_sure
 
-def upscale(dataset,network,upscale,ns):
+def upscale(dataset,network,prob,upscale,ns):
 	no=0
 
 	if dataset == 'BIG':
@@ -164,11 +161,11 @@ def upscale(dataset,network,upscale,ns):
 
 		if ns:
 			if dataset == 'BIG':
-				not_sure = find_not_sure(diffs,img,argmax,class_no,0.110)
-				extra = find_extra(diffs,img,argmax_second,class_no,0.110)
+				not_sure = find_not_sure(diffs,img,argmax,class_no,prob)
+				extra = find_extra(diffs,img,argmax_second,class_no,prob)
 			elif dataset == 'pascal':
-				not_sure = find_not_sure(diffs,img,argmax,class_no,0.03)
-				extra = find_extra(diffs,img,argmax_second,class_no,0.015)
+				not_sure = find_not_sure(diffs,img,argmax,class_no,prob)
+				extra = find_extra(diffs,img,argmax_second,class_no,prob)
 
 			img[not_sure==255]=127
 			img[extra==255]=127
