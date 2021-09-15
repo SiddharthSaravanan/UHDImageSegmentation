@@ -11,7 +11,8 @@ from scipy import sparse, ndimage as ndi
 
 from skimage._shared import utils
 from skimage._shared.utils import warn
-#----------------------------------------------
+
+#------------------------------------------------
 
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
@@ -434,7 +435,7 @@ def thinning(img1, iterations):
 			temp = np.copy(img)
 			temp = cv2.morphologyEx(src=temp, op=cv2.MORPH_HITMISS, kernel=b[j],borderType=cv2.BORDER_REPLICATE)
 			img = img - temp #center of the SE always has 1 (foreground)
-		if np.count_nonzero(img) <=10000:
+		if np.count_nonzero(img) <=40000:
 			print("thinning stopped at %d"%(i))
 			break
 	return img
@@ -497,10 +498,6 @@ def refinement(dataset,x,prune,b):
 		form = '.jpg'
 	if dataset == 'pascal':
 		form = '.png'
-		prune = 2
-
-
-	print(x)
 	
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
@@ -512,40 +509,33 @@ def refinement(dataset,x,prune,b):
 		img = cv2.imread(file,0)
 		graph = cv2.imread(grad_folder+fname.split('.')[0]+form,0)
 
-		# print(img.shape)
-		# print(grad_folder+fname)
-		# print(graph.shape)
-
 		if cv2.countNonZero(img)==0:
-		# if True:
 			img1 = np.copy(img)
 		else:
+			
 			thin = np.copy(img)
 			thick = np.copy(img)
 
 			if np.count_nonzero(img == 255) == 0:
 				thin[thin>100] = 255
-			
+
 			thin[thin<200] = 0
 			thick[thick>100] = 255
 			thick = 255-thick
 
 			if dataset == 'BIG':
-				print(prune)
 				thin,thick = gen_seed(thin,thick,x,prune)
 
 			thick = np.clip(thick,0,127)
-			
 			seed = thin + thick
 			
-			
+			#random walker
 			img3 = random_walk(graph, seed, beta=b, mode='bf',multichannel = False)
 
 			img1 = np.copy(img3)
 			img1 = (img1-1)*255
 
 			img1 = cv2.medianBlur(img1,7)
-			
 			_,img1 = cv2.threshold(img1,200,255,cv2.THRESH_BINARY)
 
 		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,img1)
