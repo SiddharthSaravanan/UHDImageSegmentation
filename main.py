@@ -7,36 +7,69 @@ from upscale import upscale_softmax,up
 import refine
 from iou_evaluation import evaluate
 
-parser = argparse.ArgumentParser(description='Refine and evaluate')
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
-parser.add_argument('--dataset', type=str, default='BIG', choices = ['BIG','pascal','custom'], help='dataset to be used')
+parser = argparse.ArgumentParser(description='Refine and evaluate')
+parser.add_argument('--dataset', type=str, default='pascal', choices = ['BIG','pascal','custom'], help='dataset to be used')
 parser.add_argument('--network', type=str, default= 'deeplab', choices = ['deeplab','fcn'], help='network used to generate segmentation')
-parser.add_argument('--output', type=str, default='./refinement_results/', help='path where refinement results are saved')
-parser.add_argument('--not_sure', type=bool, default=True, help='set to True if you want to include not_sure labels when upscaling/converting network results to images')
-parser.add_argument('--upscale', type=bool, default=True, help='set to True if you need to upscale images back to their original high resolution')
-parser.add_argument('--x', type=int, default=28, help='Number of iterations to perform thinning')
-parser.add_argument('--beta', type=int, default=111, help='Beta for Random Walker')
-parser.add_argument('--prune', type=int, default=13, help='Number of iterations to perform pruning')
-parser.add_argument('--evaluate', type=bool, default=True, help='set to True if you want to evaluate the results using gt_images')
+parser.add_argument('--not_sure', type=str2bool, default=True, help='set to True if you want to include not_sure labels when upscaling/converting network results to images')
+parser.add_argument('--upscale', type=str2bool, default=True, help='set to True if you need to upscale images back to their original high resolution')
+parser.add_argument('--prob', type=float, default=0.2, help='The number that defines the maximum probability difference required between the most probable and second most probable classes for a pixel to be classified as not_sure')
+parser.add_argument('--thin', type=int, default=30, help='Number of iterations to perform thinning')
+parser.add_argument('--beta', type=float, default=110, help='Beta for Random Walker')
+parser.add_argument('--prune', type=int, default=15, help='Number of iterations to perform pruning')
+parser.add_argument('--evaluate', type=str2bool, default=True, help='set to True if you want to evaluate the results using gt_images')
+parser.add_argument('--ideal',type = str2bool, default = True,  help = 'set to true if you want to use ideal values of prob, thin, beta, and prune to refine your segmentations')
 
 args = parser.parse_args()
 
+#------------------------------------------------
+
+
+ideal_params = { 
+'BIG':{
+'deeplab': {'prob':0.11, 'thin':28 , 'beta':110 , 'prune':19},
+'fcn': {'prob':1, 'thin':85 , 'beta':108 , 'prune':10}
+},
+
+'pascal':{
+'deeplab': {'prob':0.285, 'thin':0 , 'beta':105 , 'prune':0},
+'fcn': {'prob':1.7, 'thin':0 , 'beta':139 , 'prune':0}
+}
+}
+
+#------------------------------------------------
+
 def main():
+
+	if args.ideal:
+		args.prob = ideal_params[args.dataset][args.network]['prob']
+		args.thin = ideal_params[args.dataset][args.network]['thin']
+		args.beta = ideal_params[args.dataset][args.network]['beta']
+		args.prune = ideal_params[args.dataset][args.network]['prune']
+
+	print("prob = %f\nthin = %d\nbeta = %f\nprune = %d"%(args.prob,args.thin,args.beta,args.prune))
 
 	#generate dollar gradient images
 	gen_gradient.gen_grad(args.dataset)
 
 	#upscaling
-	# upscale_softmax.gen_probs(args.dataset)
-	# up.upscale(args.dataset,args.network,args.upscale,args.not_sure)
+	up.upscale(args.dataset,args.network,args.prob,args.upscale,args.not_sure)
 
 	#run random walker
-	refine.refinement(args.dataset,args.x,args.prune,args.beta)
+	refine.refinement(args.dataset,args.thin,args.prune,args.beta)
 
 	#evaluate iou
 	if args.evaluate:
-		evaluate.eval_iou(args.dataset)
-
+		evaluate.eval_iou(args.dataset,args.beta)
 
 
 if __name__ == '__main__':
