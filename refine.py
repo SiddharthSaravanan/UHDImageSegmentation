@@ -12,7 +12,7 @@ from scipy import sparse, ndimage as ndi
 from skimage._shared import utils
 from skimage._shared.utils import warn
 
-#------------------------------------------------
+#scipy randomwalker implementation-
 
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
@@ -37,7 +37,7 @@ except ImportError:
 from skimage.util import img_as_float
 
 from scipy.sparse.linalg import cg, spsolve
-#-------------------------------------------------
+#Structuring Elements for thinning-
 
 img = np.zeros((1,1))
 ip_img = np.zeros((1,1,1))
@@ -77,7 +77,6 @@ b[7] = np.array((
 		 [0, 1, 1]]), dtype="int")
 
 
-#--------------------------------------------------------------------
 
 def discrete_sum(a, axis=-1):
 
