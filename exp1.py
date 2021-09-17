@@ -11,9 +11,6 @@ no=0
 
 for fname in os.listdir(folder):
 	file = os.path.join(folder,fname)
-	no+=1
-	if no<=49:
-		continue
 
 	txt_filename = "./exp1,neg/"+fname.split('.')[0]+".txt"
 
