@@ -31,8 +31,6 @@ parser.add_argument('--ideal',type = str2bool, default = True,  help = 'set to t
 
 args = parser.parse_args()
 
-#------------------------------------------------
-
 
 ideal_params = { 
 'BIG':{
@@ -45,8 +43,6 @@ ideal_params = {
 'fcn': {'prob':1.7, 'thin':0 , 'beta':139 , 'prune':0}
 }
 }
-
-#------------------------------------------------
 
 def main():
 
