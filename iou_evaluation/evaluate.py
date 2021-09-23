@@ -6,6 +6,7 @@ import os
 
 def eval_iou(dataset):
 	
+	# calculate overall IoU%
 	txt_filename = "./iou_evaluation/iou_"+dataset+".txt"
 	no=0
 	file1=open(txt_filename,"w")
