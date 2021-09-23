@@ -12,7 +12,7 @@ from scipy import sparse, ndimage as ndi
 from skimage._shared import utils
 from skimage._shared.utils import warn
 
-#scipy randomwalker implementation-
+#------------------------------------------------
 
 try:
 	from scipy.sparse.linalg.dsolve.linsolve import umfpack
@@ -37,11 +37,11 @@ except ImportError:
 from skimage.util import img_as_float
 
 from scipy.sparse.linalg import cg, spsolve
-#Structuring Elements for thinning-
+#-------------------------------------------------
 
 img = np.zeros((1,1))
-ip_img = np.zeros((1,1,1))
 
+# array of SE used for thinning/
 b = np.zeros((8,3,3))
 b[0] = np.array((
 		[[-1, -1, -1],
@@ -77,7 +77,8 @@ b[7] = np.array((
 		 [0, 1, 1]]), dtype="int")
 
 
-
+#--------------------------------------------------------------------
+# function used to calculate edge weights
 def discrete_sum(a, axis=-1):
 
 	a = np.asanyarray(a)
@@ -435,7 +436,7 @@ def thinning(img1, iterations):
 			temp = cv2.morphologyEx(src=temp, op=cv2.MORPH_HITMISS, kernel=b[j],borderType=cv2.BORDER_REPLICATE)
 			img = img - temp #center of the SE always has 1 (foreground)
 		if np.count_nonzero(img) <=40000:
-			print("thinning stopped at %d"%(i))
+			print("thinning stopped at iteration %d"%(i))
 			break
 	return img
 
@@ -487,9 +488,8 @@ def gen_seed(thin,thick,x,prune):
 	return thin,thick
 
 
-def refinement(dataset,x,prune,b):
+def refinement(dataset,thin_iter,prune,beta_param):
 
-	no=0
 	imgs_folder = './upscale/upscaled_'+dataset+'/'
 	grad_folder = './gradients/grad_images_'+dataset+'/'
 
@@ -502,14 +502,12 @@ def refinement(dataset,x,prune,b):
 		file = os.path.join(imgs_folder,fname)
 	
 		print(fname)
-		no+=1
-		print(no)
 		
 		img = cv2.imread(file,0)
 		graph = cv2.imread(grad_folder+fname.split('.')[0]+form,0)
 
 		if cv2.countNonZero(img)==0:
-			img1 = np.copy(img)
+			result = np.copy(img)
 		else:
 			
 			thin = np.copy(img)
@@ -523,18 +521,17 @@ def refinement(dataset,x,prune,b):
 			thick = 255-thick
 
 			if dataset == 'BIG':
-				thin,thick = gen_seed(thin,thick,x,prune)
+				thin,thick = gen_seed(thin,thick,thin_iter,prune)
 
 			thick = np.clip(thick,0,127)
 			seed = thin + thick
 			
 			#random walker
-			img3 = random_walk(graph, seed, beta=b, mode='bf',multichannel = False)
+			result = random_walk(graph, seed, beta=beta_param, mode='bf',multichannel = False)
 
-			img1 = np.copy(img3)
-			img1 = (img1-1)*255
+			result = (result-1)*255
 
-			img1 = cv2.medianBlur(img1,7)
-			_,img1 = cv2.threshold(img1,200,255,cv2.THRESH_BINARY)
+			result = cv2.medianBlur(result,7)
+			_,result = cv2.threshold(result,200,255,cv2.THRESH_BINARY)
 
-		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,img1)
+		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,result)
