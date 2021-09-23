@@ -19,7 +19,6 @@ for fname in os.listdir(folder):
 	file1.close()
 
 	print(fname)
-	print(no)
 
 	img = cv2.imread(file,0)
 	# img = 255-img
