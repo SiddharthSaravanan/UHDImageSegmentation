@@ -7,6 +7,8 @@ from upscale import upscale_softmax,up
 import refine
 from iou_evaluation import evaluate
 
+#------------------------------------------------
+
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -17,21 +19,25 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+#------------------------------------------------
+
 parser = argparse.ArgumentParser(description='Refine and evaluate')
-parser.add_argument('--dataset', type=str, default='pascal', choices = ['BIG','pascal','custom'], help='dataset to be used')
+parser.add_argument('--dataset', type=str, default='BIG', choices = ['BIG','pascal','custom'], help='dataset to be used')
 parser.add_argument('--network', type=str, default= 'deeplab', choices = ['deeplab','fcn'], help='network used to generate segmentation')
 parser.add_argument('--not_sure', type=str2bool, default=True, help='set to True if you want to include not_sure labels when upscaling/converting network results to images')
 parser.add_argument('--upscale', type=str2bool, default=True, help='set to True if you need to upscale images back to their original high resolution')
 parser.add_argument('--prob', type=float, default=0.2, help='The number that defines the maximum probability difference required between the most probable and second most probable classes for a pixel to be classified as not_sure')
 parser.add_argument('--thin', type=int, default=30, help='Number of iterations to perform thinning')
 parser.add_argument('--beta', type=float, default=110, help='Beta for Random Walker')
-parser.add_argument('--prune', type=int, default=15, help='Number of iterations to perform pruning')
+parser.add_argument('--prune', type=int, default=19, help='Number of iterations to perform pruning')
 parser.add_argument('--evaluate', type=str2bool, default=True, help='set to True if you want to evaluate the results using gt_images')
-parser.add_argument('--ideal',type = str2bool, default = True,  help = 'set to true if you want to use ideal values of prob, thin, beta, and prune to refine your segmentations')
+parser.add_argument('--ideal',type = str2bool, default = False,  help = 'set to true if you want to use ideal values of prob, thin, beta, and prune to refine your segmentations')
 
 args = parser.parse_args()
 
+#------------------------------------------------
 
+#ideal hyperparameters for refining segmentations of certain Networks.
 ideal_params = { 
 'BIG':{
 'deeplab': {'prob':0.11, 'thin':28 , 'beta':110 , 'prune':19},
@@ -44,6 +50,8 @@ ideal_params = {
 }
 }
 
+#------------------------------------------------
+
 def main():
 
 	if args.ideal:
@@ -54,7 +62,7 @@ def main():
 
 	print("prob = %f\nthin = %d\nbeta = %f\nprune = %d"%(args.prob,args.thin,args.beta,args.prune))
 
-	#generate dollar gradient images
+	#generate dollar gradient images, might take a while.
 	gen_gradient.gen_grad(args.dataset)
 
 	#upscaling
