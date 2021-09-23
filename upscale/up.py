@@ -32,8 +32,6 @@ def find_extra(diffs,img,argmax_second,class_no,prob):
 
 		perc = np.count_nonzero(extra_seeds)/(np.count_nonzero(res))
 		break
-		# if perc<0.5:
-		# 	break
 
 	return (res-im)
 
@@ -58,36 +56,30 @@ def find_not_sure(diffs,img,argmax,class_no,prob):
 			break
 
 	im[not_sure==255]=127
-
 	return not_sure
 
 def upscale(dataset,network,prob,upscale,ns):
-	no=0
 
 	if dataset == 'BIG':
 		upscale = True
 	if dataset == 'pascal':
 		upscale = False
 
-
-	probs_folder = './datasets/'+dataset+'/segmentation_results/'
-	output_folder = './upscale/upscaled_'+dataset+'/'
+	probs_folder = os.path.join('./datasets/',dataset,'/segmentation_results/')
+	output_folder = os.path.join('./upscale/upscaled_'+dataset,'/')
 
 	for fname in os.listdir(probs_folder):
 		file = os.path.join(probs_folder,fname)
 
-		no+=1
 		print(fname)
-		print(no)
 
 		if dataset == 'pascal':
 			class_no = int(fname.split('_')[2])
 
 		if dataset == 'BIG':
-
 			obj = (((fname.split('.')[0]).split('_'))[3])
 
-			# print(obj)
+			# get object in image.
 			class_no=0
 
 			if obj=="aeroplane":
@@ -133,12 +125,9 @@ def upscale(dataset,network,prob,upscale,ns):
 			else:
 				class_no=0
 
-
 		arr = np.load(file)
 
-		# print(arr.shape)
 		if upscale:
-			# print('./datasets/'+dataset+'/val_images/'+fname.split('.')[0]+'.jpg')
 			uhd_img = cv2.imread('./datasets/'+dataset+'/val_images/'+fname.split('.')[0]+'.jpg',0)
 			arr = cv2.resize(arr, dsize = (uhd_img.shape[1],uhd_img.shape[0]) , interpolation=cv2.INTER_CUBIC)
 		
@@ -169,7 +158,5 @@ def upscale(dataset,network,prob,upscale,ns):
 
 			img[not_sure==255]=127
 			img[extra==255]=127
-
-		# print(output_folder+(fname.split('.')[0])+".png")
 
 		cv2.imwrite(output_folder+(fname.split('.')[0])+".png",img)
