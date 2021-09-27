@@ -63,7 +63,7 @@ def main():
 	print("prob = %f\nthin = %d\nbeta = %f\nprune = %d"%(args.prob,args.thin,args.beta,args.prune))
 
 	#generate dollar gradient images, might take a while.
-	gen_gradient.gen_grad(args.dataset)
+	# gen_gradient.gen_grad(args.dataset)
 
 	#upscaling
 	up.upscale(args.dataset,args.network,args.prob,args.upscale,args.not_sure)
@@ -73,7 +73,7 @@ def main():
 
 	#evaluate iou
 	if args.evaluate:
-		evaluate.eval_iou(args.dataset,args.beta)
+		evaluate.eval_iou(args.dataset)
 
 
 if __name__ == '__main__':
