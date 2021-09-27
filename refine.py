@@ -497,9 +497,12 @@ def refinement(dataset,thin_iter,prune,beta_param):
 		form = '.jpg'
 	if dataset == 'pascal':
 		form = '.png'
-	
+
+	no=0
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
+
+		
 	
 		print(fname)
 		
