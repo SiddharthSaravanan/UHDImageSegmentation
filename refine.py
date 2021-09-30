@@ -503,7 +503,6 @@ def refinement(dataset,thin_iter,prune,beta_param):
 		file = os.path.join(imgs_folder,fname)
 
 		
-	
 		print(fname)
 		
 		img = cv2.imread(file,0)
