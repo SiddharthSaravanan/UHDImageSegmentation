@@ -4,10 +4,14 @@ import random
 import math
 import os
 
-def eval_iou(dataset):
-	
-	# calculate overall IoU%
+
+def eval_iou(dataset,prob,thin,prune,beta):
 	txt_filename = "./iou_evaluation/iou_"+dataset+".txt"
+	
+	overall_tp=0
+	overall_fp=0
+	overall_fn=0
+
 	no=0
 	file1=open(txt_filename,"w")
 	file1.write('No.,Im name,TP,FP,FN,IoU')
@@ -19,9 +23,8 @@ def eval_iou(dataset):
 		file = os.path.join(imgs_folder,fname)
 
 		no+=1
-		file1 = open(txt_filename, "a")
+		file1 = open(txt_filename, "a")  # append mode
 		file1.write("\n")
-		
 		file1.write(str(no))
 		file1.write(",")
 		file1.write(fname.split('.')[0])
@@ -52,4 +55,13 @@ def eval_iou(dataset):
 		file1.write(str(fn))
 		file1.write(",")
 		file1.write(str((tp/(tp+fp+fn))))
+		overall_tp+=tp
+		overall_fp+=fp
+		overall_fn+=fn
 		file1.close()
+
+	print("overall iou = %f\n"%((overall_tp/(overall_tp+overall_fp+overall_fn))))
+	print("prob = ",prob)
+	print("thin = ",thin)
+	print("prune = ",prune)
+	print("beta = ",beta)
