@@ -8,7 +8,6 @@ import refine
 from iou_evaluation import evaluate
 
 #------------------------------------------------
-
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -40,7 +39,7 @@ args = parser.parse_args()
 #ideal hyperparameters for refining segmentations of certain Networks.
 ideal_params = { 
 'BIG':{
-'deeplab': {'prob':0.11, 'thin':28 , 'beta':110 , 'prune':19},
+'deeplab': {'prob':0.18, 'thin':36 , 'beta':110 , 'prune':20},
 'fcn': {'prob':1, 'thin':85 , 'beta':108 , 'prune':10}
 },
 
