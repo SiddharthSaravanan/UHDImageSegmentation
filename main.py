@@ -42,7 +42,6 @@ ideal_params = {
 'deeplab': {'prob':0.18, 'thin':36 , 'beta':110 , 'prune':20},
 'fcn': {'prob':1, 'thin':85 , 'beta':108 , 'prune':10}
 },
-
 'pascal':{
 'deeplab': {'prob':0.285, 'thin':0 , 'beta':105 , 'prune':0},
 'fcn': {'prob':1.7, 'thin':0 , 'beta':139 , 'prune':0}
