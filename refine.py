@@ -142,11 +142,11 @@ def _compute_weights_3d(data, spacing, beta, eps, multichannel):
 	# print(data.shape)
 	gradients = np.concatenate(
 		[discrete_sum(data[..., 0], axis=ax).ravel() / spacing[ax]
-		 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
+		 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 1
 	for channel in range(1, data.shape[-1]):
 		gradients += np.concatenate(
 			[discrete_sum(data[..., channel], axis=ax).ravel() / spacing[ax]
-			 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
+			 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 1
 
 	# print(gradients.shape)
 
