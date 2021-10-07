@@ -10,10 +10,9 @@ folder = './results/'
 no=0
 
 for fname in os.listdir(folder):
+	
 	file = os.path.join(folder,fname)
-
 	txt_filename = "./exp1,neg/"+fname.split('.')[0]+".txt"
-
 	file1=open(txt_filename,"a")
 	file1.write('distance,positives,true positives,percentage')
 	file1.close()
