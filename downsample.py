@@ -6,32 +6,8 @@ import random
 import math
 import os,sys
 
-
-# for fname in os.listdir('./Datasets/BIG/val_im/'):
-# 	file = os.path.join('./Datasets/BIG/val_im/',fname)
-# 	print(fname.split('.')[0])
-
-# sys.exit()
 no=0
-# smallest=10000000000000000
-# large_axis = 0
 
-# for fname in os.listdir('./Datasets/BIG/test_im/'):
-# 	file = os.path.join('./Datasets/BIG/test_im/',fname)
-
-# 	img = cv2.imread(file,cv2.IMREAD_COLOR)
-# 	print(img.shape)
-
-# 	if img.shape[0]>img.shape[1]:
-# 		large_axis = img.shape[0]
-# 	else:
-# 		large_axis = img.shape[1]
-
-# 	if large_axis<smallest:
-# 		smallest = large_axis
-
-# print(smallest)
-# sys.exit(0)
 for max_dim in [30.0,90.0,150.0,210.0,270.0,330.0,390.0,450.0]:
 # for max_dim in [1024]:
 	os.makedirs('D:/UG/IP SOP/downsamples/'+str(max_dim)+'/im/')
