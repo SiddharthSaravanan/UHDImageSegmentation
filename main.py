@@ -1,6 +1,7 @@
 import numpy as np
 import argparse
 import os,sys
+import matplotlib.pyplot as plt
 
 from gradients import gen_gradient
 from upscale import upscale_softmax,up
@@ -8,6 +9,7 @@ import refine
 from iou_evaluation import evaluate
 
 #------------------------------------------------
+
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -39,9 +41,10 @@ args = parser.parse_args()
 #ideal hyperparameters for refining segmentations of certain Networks.
 ideal_params = { 
 'BIG':{
-'deeplab': {'prob':0.18, 'thin':36 , 'beta':110 , 'prune':20},
+'deeplab': {'prob':0.11, 'thin':28 , 'beta':110 , 'prune':19},
 'fcn': {'prob':1, 'thin':85 , 'beta':108 , 'prune':10}
 },
+
 'pascal':{
 'deeplab': {'prob':0.285, 'thin':0 , 'beta':105 , 'prune':0},
 'fcn': {'prob':1.7, 'thin':0 , 'beta':139 , 'prune':0}
@@ -61,17 +64,21 @@ def main():
 	print("prob = %f\nthin = %d\nbeta = %f\nprune = %d"%(args.prob,args.thin,args.beta,args.prune))
 
 	#generate dollar gradient images, might take a while.
-	gen_gradient.gen_grad(args.dataset)
+	# gen_gradient.gen_grad(args.dataset)
 
 	#upscaling
 	up.upscale(args.dataset,args.network,args.prob,args.upscale,args.not_sure)
-
+	
 	#run random walker
 	refine.refinement(args.dataset,args.thin,args.prune,args.beta)
 
 	#evaluate iou
 	if args.evaluate:
 		evaluate.eval_iou(args.dataset,args.prob,args.thin,args.prune,args.beta)
+
+	z = np.random.normal(170, 10, 250)
+	plt.hist(z)
+	plt.show() 
 
 
 if __name__ == '__main__':
