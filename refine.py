@@ -106,7 +106,6 @@ def discrete_sum(a, axis=-1):
 
 	return a
 
-
 def _make_graph_edges_3d(n_x, n_y, n_z):
 	"""Returns a list of edges for a 3D image.
 	Parameters
