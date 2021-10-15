@@ -60,8 +60,6 @@ for fname in os.listdir(folder):
 
 		if i>=5000:
 			break
-
 		cv2.imwrite("./dist/"+str(i)+".png",t)
-
 		del t
 		i+=1
