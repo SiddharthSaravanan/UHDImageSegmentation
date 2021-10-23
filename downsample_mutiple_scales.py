@@ -9,7 +9,6 @@ import os,sys
 no=0
 
 for max_dim in [30.0,90.0,150.0,210.0,270.0,330.0,390.0,450.0]:
-# for max_dim in [1024]:
 	os.makedirs('D:/UG/IP SOP/downsamples/'+str(max_dim)+'/im/')
 	os.makedirs('D:/UG/IP SOP/downsamples/'+str(max_dim)+'/gt/')
 
