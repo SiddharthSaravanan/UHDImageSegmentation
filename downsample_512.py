@@ -33,7 +33,7 @@ no=0
 # print(smallest)
 # sys.exit(0)
 # for max_dim in [30.0,90.0,150.0,210.0,270.0,330.0,390.0,450.0]:
-for max_dim in [111.0]:
+for max_dim in [512.0]:
 	os.makedirs('D:/UG/IP SOP/downsamples/'+str(max_dim)+'/im/')
 	os.makedirs('D:/UG/IP SOP/downsamples/'+str(max_dim)+'/gt/')
 
@@ -64,14 +64,6 @@ for max_dim in [111.0]:
 		# max_dim=512
 		
 		scale_factor=0
-		"""
-		if w>h:
-			scale_factor = float(w)/(max_dim)
-			img_resized = cv2.resize(img, dsize = (int(max_dim),int(round(h/scale_factor))) , interpolation=cv2.INTER_CUBIC)
-		else:
-			scale_factor = float(h)/(max_dim)
-			img_resized = cv2.resize(img, dsize = (int(round(w/scale_factor)),int(max_dim)) , interpolation=cv2.INTER_CUBIC)
-		"""
 		img_resized = cv2.resize(img, dsize = (int(final_w),int(final_h)) , interpolation=cv2.INTER_CUBIC)
 
 
