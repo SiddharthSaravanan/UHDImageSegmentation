@@ -5,22 +5,19 @@ import random
 import math
 import os
 
-
 def find_extra(diffs,img,argmax_second,class_no,prob):
 	not_sure = np.copy(diffs)
 	perc=0
 	num=0
 
-	im = np.copy(img)
-
 	img2 = np.copy(argmax_second)
 	img2[img2==class_no]=255
 	img2[img2!=255]=0
 
-	res = np.copy(im)
+	res = np.copy(img)
 
 	for prob_diff in [prob]:
-		if (np.count_nonzero(im))==0:
+		if (np.count_nonzero(img))==0:
 			break
 		not_sure = np.copy(diffs)
 		not_sure[not_sure<=prob_diff]=255
@@ -28,45 +25,42 @@ def find_extra(diffs,img,argmax_second,class_no,prob):
 		not_sure = not_sure.astype('uint8')
 
 		extra_seeds = np.bitwise_and(img2,not_sure)
-		res = np.bitwise_or(extra_seeds,im)
+		res = np.bitwise_or(extra_seeds,img)
 
 		perc = np.count_nonzero(extra_seeds)/(np.count_nonzero(res))
 		break
 
-	return (res-im)
+	return (res-img)
 
 def find_not_sure(diffs,img,argmax,class_no,prob):
 	not_sure = np.copy(diffs)
 	perc=0
 	num=0
-	im = np.copy(img)
 
 	for prob_diff in [prob,0]:
-		if (np.count_nonzero(im))==0:
+		if (np.count_nonzero(img))==0:
 			break
 		not_sure = np.copy(diffs)
 		not_sure[not_sure<=prob_diff]=255
 		not_sure[not_sure!=255]=0
 		not_sure = not_sure.astype('uint8')
 
-		not_sure = np.bitwise_and(not_sure,im)
+		not_sure = np.bitwise_and(not_sure,img)
 
 		perc = np.count_nonzero(not_sure)/(np.count_nonzero(argmax==class_no))
 		if perc<0.1:
 			break
 
-	im[not_sure==255]=127
 	return not_sure
 
 def upscale(dataset,network,prob,upscale,ns):
-
 	if dataset == 'BIG':
 		upscale = True
 	if dataset == 'pascal':
 		upscale = False
 
-	probs_folder = os.path.join('./datasets/',dataset,'/segmentation_results/')
-	output_folder = os.path.join('./upscale/upscaled_'+dataset,'/')
+	probs_folder = './datasets/'+dataset+'/segmentation_results/'
+	output_folder = './upscale/upscaled_'+dataset+'/'
 
 	for fname in os.listdir(probs_folder):
 		file = os.path.join(probs_folder,fname)
@@ -135,12 +129,11 @@ def upscale(dataset,network,prob,upscale,ns):
 
 		if ns:
 			arr_max = np.max(arr, axis=2)
-			arr_copy = np.copy(arr)
 
-			arr_copy[np.arange(arr.shape[0])[:,None],np.arange(arr.shape[1]),argmax] = 0
+			arr[np.arange(arr.shape[0])[:,None],np.arange(arr.shape[1]),argmax] = 0
 
-			argmax_second = np.argmax(arr_copy,axis=2)
-			arr_max_second = np.max(arr_copy,axis=2)
+			argmax_second = np.argmax(arr,axis=2)
+			arr_max_second = np.max(arr,axis=2)
 
 			diffs = arr_max - arr_max_second
 
