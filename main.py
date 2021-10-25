@@ -8,6 +8,8 @@ from upscale import upscale_softmax,up
 import refine
 from iou_evaluation import evaluate
 
+#------------------------------------------------
+
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -18,7 +20,7 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
-
+#------------------------------------------------
 
 parser = argparse.ArgumentParser(description='Refine and evaluate')
 parser.add_argument('--dataset', type=str, default='BIG', choices = ['BIG','pascal','custom'], help='dataset to be used')
@@ -34,31 +36,32 @@ parser.add_argument('--ideal',type = str2bool, default = False,  help = 'set to 
 
 args = parser.parse_args()
 
+#------------------------------------------------
 
 #ideal hyperparameters for refining segmentations of certain Networks.
 ideal_params = { 
 'BIG':{
-'deeplab': {'prob':0.035, 'thin':36 , 'beta':112 , 'prune':16},
-'fcn': {'prob':1, 'thin':85 , 'beta':108 , 'prune':10}
+'deeplab': {'prob':0.03, 'thin':35, 'beta':113, 'prune':20},
+'fcn': {'prob':1, 'thin':85, 'beta':108, 'prune':10}
 },
 
 'pascal':{
 'deeplab': {'prob':0.285, 'thin':0 , 'beta':105 , 'prune':0},
-'fcn': {'prob':1.7, 'thin':0 , 'beta':139 , 'prune':0}
+'fcn': {'prob':1.7, 'thin':0, 'beta':139, 'prune':0}
 }
 }
 
 #------------------------------------------------
 
 def main():
-
+	
+	tracemalloc.start()
 	if args.ideal:
 		args.prob = ideal_params[args.dataset][args.network]['prob']
 		args.thin = ideal_params[args.dataset][args.network]['thin']
 		args.beta = ideal_params[args.dataset][args.network]['beta']
 		args.prune = ideal_params[args.dataset][args.network]['prune']
 
-	print("chosen parameters:\n")
 	print("prob = %f\nthin = %d\nbeta = %f\nprune = %d"%(args.prob,args.thin,args.beta,args.prune))
 
 	#generate dollar gradient images, might take a while.
