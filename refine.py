@@ -106,6 +106,7 @@ def discrete_sum(a, axis=-1):
 
 	return a
 
+
 def _make_graph_edges_3d(n_x, n_y, n_z):
 	"""Returns a list of edges for a 3D image.
 	Parameters
@@ -141,11 +142,11 @@ def _compute_weights_3d(data, spacing, beta, eps, multichannel):
 	# print(data.shape)
 	gradients = np.concatenate(
 		[discrete_sum(data[..., 0], axis=ax).ravel() / spacing[ax]
-		 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 1
+		 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
 	for channel in range(1, data.shape[-1]):
 		gradients += np.concatenate(
 			[discrete_sum(data[..., channel], axis=ax).ravel() / spacing[ax]
-			 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 1
+			 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
 
 	# print(gradients.shape)
 
@@ -425,10 +426,7 @@ def random_walk(data, labels, beta=130, mode='cg_j', tol=1.e-3, copy=True,
 #--------------------------------------------------------------------
 
 
-def thinning(img1, iterations):
-	# img = np.zeros((img1.shape[0]+2,img1.shape[1]+2),dtype='uint8')
-	# img[1:img1.shape[0]+1,1:img1.shape[1]+1] = np.copy(img1)
-	img = np.copy(img1)
+def thinning(img, iterations):
 	for i in range(iterations):
 		for j in range(8):
 			temp = np.copy(img)
@@ -501,18 +499,17 @@ def refinement(dataset,thin_iter,prune,beta_param):
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
 
-		
 		print(fname)
 		
 		img = cv2.imread(file,0)
 		graph = cv2.imread(grad_folder+fname.split('.')[0]+form,0)
 
 		if cv2.countNonZero(img)==0:
-			result = np.copy(img)
+			result = img
 		else:
 			
 			thin = np.copy(img)
-			thick = np.copy(img)
+			thick = img
 
 			if np.count_nonzero(img == 255) == 0:
 				thin[thin>100] = 255
