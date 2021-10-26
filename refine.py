@@ -369,8 +369,8 @@ def random_walk(data, labels, beta=130, mode='cg_j', tol=1.e-3, copy=True,
 	labels_shape = labels.shape
 	labels_dtype = labels.dtype
 
-	if copy:
-		labels = np.copy(labels)
+	# if copy:
+	# 	labels = np.copy(labels)
 
 	(labels, nlabels, mask,
 	 inds_isolated_seeds, isolated_values) = _preprocess(labels)
@@ -492,15 +492,21 @@ def refinement(dataset,thin_iter,prune,beta_param):
 	if dataset == 'pascal':
 		form = '.png'
 
+	no=0
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
+		# no+=1
+		# if no<=49:
+		# 	continue
+
+		print(no)
 		print(fname)
 		
 		img = cv2.imread(file,0)
 		graph = cv2.imread(grad_folder+fname.split('.')[0]+form,0)
 
 		if cv2.countNonZero(img)==0:
-			result = img
+			cv2.imwrite('./refinement_results/'+dataset+'/'+fname,img)
 		else:
 			
 			thin = np.copy(img)
@@ -524,12 +530,12 @@ def refinement(dataset,thin_iter,prune,beta_param):
 			del img
 			
 			#random walker
-			result = random_walk(graph, seed, beta=beta_param, mode='bf',multichannel = False)
+			seed = random_walk(graph, seed, beta=beta_param, mode='bf',multichannel = False, copy = False)
 
-			result = (result-1)*255
+			seed = (seed-1)*255
 
-			result = cv2.medianBlur(result,7)
-			_,result = cv2.threshold(result,200,255,cv2.THRESH_BINARY)
+			seed = cv2.medianBlur(seed,7)
+			_,seed = cv2.threshold(seed,200,255,cv2.THRESH_BINARY)
 
-		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,result)
+			cv2.imwrite('./refinement_results/'+dataset+'/'+fname,seed)
 		break
