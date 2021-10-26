@@ -1,8 +1,6 @@
 import numpy as np
 import cv2
 import skimage.segmentation as seg
-from skimage.segmentation import flood, flood_fill
-import random
 import math
 import os
 
@@ -39,9 +37,7 @@ from skimage.util import img_as_float
 from scipy.sparse.linalg import cg, spsolve
 #-------------------------------------------------
 
-img = np.zeros((1,1))
-
-# array of SE used for thinning/
+# array of SE used for thinning
 b = np.zeros((8,3,3))
 b[0] = np.array((
 		[[-1, -1, -1],
@@ -144,6 +140,7 @@ def _compute_weights_3d(data, spacing, beta, eps, multichannel):
 		[discrete_sum(data[..., 0], axis=ax).ravel() / spacing[ax]
 		 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
 	for channel in range(1, data.shape[-1]):
+		print("here")
 		gradients += np.concatenate(
 			[discrete_sum(data[..., channel], axis=ax).ravel() / spacing[ax]
 			 for ax in [2, 1, 0] if data.shape[ax] > 1], axis=0) ** 2
@@ -495,10 +492,8 @@ def refinement(dataset,thin_iter,prune,beta_param):
 	if dataset == 'pascal':
 		form = '.png'
 
-	no=0
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
-
 		print(fname)
 		
 		img = cv2.imread(file,0)
@@ -524,6 +519,10 @@ def refinement(dataset,thin_iter,prune,beta_param):
 			thick = np.clip(thick,0,127)
 			seed = thin + thick
 			
+			del thin
+			del thick
+			del img
+			
 			#random walker
 			result = random_walk(graph, seed, beta=beta_param, mode='bf',multichannel = False)
 
@@ -533,3 +532,4 @@ def refinement(dataset,thin_iter,prune,beta_param):
 			_,result = cv2.threshold(result,200,255,cv2.THRESH_BINARY)
 
 		cv2.imwrite('./refinement_results/'+dataset+'/'+fname,result)
+		break
