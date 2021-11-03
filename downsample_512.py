@@ -7,7 +7,7 @@ import math
 import os,sys
 
 no=0
-im_path = 'D:/downsamples/'+str(max_dim)+'/im/'
+im_path = 'D:/downsamples/'+str(max_dim)+'/im/' #change paths
 gt_path = 'D:/downsamples/'+str(max_dim)+'/gt/'
 
 for max_dim in [512.0]:
