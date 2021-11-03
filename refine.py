@@ -422,7 +422,6 @@ def random_walk(data, labels, beta=130, mode='cg_j', tol=1.e-3, copy=True,
 
 #--------------------------------------------------------------------
 
-
 def thinning(img, iterations):
 	for i in range(iterations):
 		for j in range(8):
@@ -495,9 +494,6 @@ def refinement(dataset,thin_iter,prune,beta_param):
 	no=0
 	for fname in os.listdir(imgs_folder):
 		file = os.path.join(imgs_folder,fname)
-		# no+=1
-		# if no<=49:
-		# 	continue
 
 		print(no)
 		print(fname)
