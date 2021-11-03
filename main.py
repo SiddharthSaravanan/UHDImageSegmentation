@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 #------------------------------------------------
 
-#ideal hyperparameters for refining segmentations of certain Networks.
+#ideal hyperparameters for refining segmentations of specified networks.
 ideal_params = { 
 'BIG':{
 'deeplab': {'prob':0.03, 'thin':35, 'beta':113, 'prune':20},
