@@ -534,4 +534,3 @@ def refinement(dataset,thin_iter,prune,beta_param):
 			_,seed = cv2.threshold(seed,200,255,cv2.THRESH_BINARY)
 
 			cv2.imwrite('./refinement_results/'+dataset+'/'+fname,seed)
-		break
