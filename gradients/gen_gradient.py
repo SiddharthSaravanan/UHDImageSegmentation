@@ -9,6 +9,4 @@ def gen_grad(dataset):
 		eng.grads_BIG(nargout=0)
 	elif dataset == 'pascal':
 		eng.grads_pascal(nargout=0)
-	elif dataset == 'custom':
-		eng.grads_custom(nargout=0)
 	eng.quit()
