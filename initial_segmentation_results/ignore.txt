@@ -1,0 +1,1 @@
+results of downssmpled segmentation results are stored here to be later upscaled and refined
