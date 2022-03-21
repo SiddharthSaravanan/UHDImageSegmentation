@@ -31,14 +31,14 @@ steps:
 
 5. run the following 6 commands in order after downloading all dependencies (see conda_environment.yml)
 
-> python preprocess.py
-> set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
-> set PATH=%PATH%;%PYTHONPATH%
-> python models/research/deeplab/datasets/build_voc2012_data.py --image_folder="./models/research/deeplab/datasets/im" --semantic_segmentation_folder="./models/research/deeplab/datasets/gt" --list_folder="./models/research/deeplab/datasets/pascal_voc_seg/VOCdevkit/VOC2012/ImageSets/Segmentation" --image_format="png" --output_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord"
+-> python preprocess.py
+-> set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
+-> set PATH=%PATH%;%PYTHONPATH%
+-> python models/research/deeplab/datasets/build_voc2012_data.py --image_folder="./models/research/deeplab/datasets/im" --semantic_segmentation_folder="./models/research/deeplab/datasets/gt" --list_folder="./models/research/deeplab/datasets/pascal_voc_seg/VOCdevkit/VOC2012/ImageSets/Segmentation" --image_format="png" --output_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord"
 
-> python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
+-> python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
 
->python test.py
+-> python test.py
 
 The results of the refinement can be found in ./results
 
