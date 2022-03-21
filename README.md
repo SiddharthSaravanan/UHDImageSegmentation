@@ -22,12 +22,18 @@ The code in `test.py` provides the demo of our method.
 steps:
 
 1. Download repository
+
 2. MATLAB - Install matlab engine - https://www.mathworks.com/matlabcentral/answers/346068-how-do-i-properly-install-matlab-engine-using-the-anaconda-package-manager-for-python
           - download dollargradiend and add it to MATLAB's path - https://github.com/pdollar/toolbox | https://pdollar.github.io/toolbox/
 
 3.Download the big test and validation datasets and put them in ./data/BIG
-4.Download the pretrained models/ frozen checkpoints here: https://drive.google.com/drive/folders/1-6VULibtyUuDjasDbmvJCPndVZ5I2BM7?usp=sharing
-  Put the two folders in .\models\research\deeplab\datasets\pascal_voc_seg\init_models
+  download here: https://github.com/hkchengrex/CascadePSP/blob/master/docs/dataset.md
+
+4.Download the models/ frozen checkpoints here: https://drive.google.com/drive/folders/1uWHEtUyUHHSfOxXruzPaBa1PUvys_IIX?usp=sharing
+
+This is essentially deeplab v3+ with a few modifications made for our purposes (https://github.com/tensorflow/models/tree/master/research/deeplab)
+
+Put the models folder in the main directory, ./
 
 5. run the following 6 commands in order after downloading all dependencies (see conda_environment.yml)
 
@@ -44,8 +50,3 @@ steps:
 -> python test.py
 
 The results of the refinement can be found in ./results
-
-
-
-
-
