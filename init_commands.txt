@@ -1,0 +1,3 @@
+set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
+
+set PATH=%PATH%;%PYTHONPATH%
