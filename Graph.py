@@ -5,13 +5,7 @@ import math
 import os
 
 from numpy.core.multiarray import normalize_axis_index
-# from scipy import sparse, ndimage as ndi
-
-# from skimage._shared import utils
-# from skimage._shared.utils import warn
 from skimage.util import img_as_float
-
-
 
 # function used to calculate edge weights
 def discrete_sum(a, axis=-1):
