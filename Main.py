@@ -8,7 +8,7 @@ import pdb
 import scipy as sp
 import cv2
 
-# from Gradient import get_dollar_gradient
+from Gradient import get_dollar_gradient
 from Segmentation import get_seeds_UHD
 from RandomWalk import RW
 from Graph import construct_graph
@@ -20,12 +20,7 @@ def get_UHD_segmentation(img_fname, class_no, **param):
     the image.
     """
     img_boundary = get_dollar_gradient(img_fname)
-
-    # img_boundary = cv2.imread("./grad/"+img_fname.split('/')[4],0)
-    
     img_seeds = get_seeds_UHD(img_fname, class_no, **param)
-
-    # cv2.imwrite('./seeds/'+(img_fname.split('/')[4]).split('.')[0]+'.png', img_seeds)
 
     # Construct the graph from the img_boundary
     edges, weights = construct_graph(img_boundary,**param)
