@@ -58,7 +58,6 @@ b[7] = np.array((
 
 def get_probs(prob_arr):
     if np.abs(np.sum(prob_arr) - (prob_arr.shape[0])*(prob_arr.shape[1])) < 2.0:
-        print('equal')
         return prob_arr
     return softmax(prob_arr,axis=2)
 
