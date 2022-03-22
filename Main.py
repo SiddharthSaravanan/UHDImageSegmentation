@@ -19,9 +19,9 @@ def get_UHD_segmentation(img_fname, class_no, **param):
     Here we obtain the segmentation for the class_no within
     the image.
     """
-    # img_boundary = get_dollar_gradient(img_fname)
+    img_boundary = get_dollar_gradient(img_fname)
 
-    img_boundary = cv2.imread("./grad/"+img_fname.split('/')[4],0)
+    # img_boundary = cv2.imread("./grad/"+img_fname.split('/')[4],0)
     
     img_seeds = get_seeds_UHD(img_fname, class_no, **param)
 
