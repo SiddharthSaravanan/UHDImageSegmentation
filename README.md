@@ -24,7 +24,7 @@ steps:
 1. Download repository
 
 2. MATLAB - Install matlab engine - https://www.mathworks.com/matlabcentral/answers/346068-how-do-i-properly-install-matlab-engine-using-the-anaconda-package-manager-for-python
-          - download dollargradiend and add it to MATLAB's path - https://github.com/pdollar/toolbox | https://pdollar.github.io/toolbox/
+          - Add the two repositories to the main directory ./  - https://github.com/pdollar/toolbox | https://github.com/pdollar/edges
 
 3.Download the big test and validation datasets and put them in ./data/BIG
   download here: https://github.com/hkchengrex/CascadePSP/blob/master/docs/dataset.md
