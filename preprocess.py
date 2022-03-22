@@ -54,8 +54,6 @@ for fname in os.listdir(dir_name):
 	cv2.imwrite('./models/research/deeplab/datasets/im/'+fname.split('.')[0]+'.png',img_resized)
 	cv2.imwrite('./models/research/deeplab/datasets/gt/'+fname.split('.')[0]+'.png',img_label)
 
-
-
 file1.close()
 file2.close()
 file3.close()
