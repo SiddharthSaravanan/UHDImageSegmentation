@@ -29,7 +29,6 @@ for idx in range(BIG_val.shape[0]):
 	img_pred = get_UHD_segmentation(img_fname, class_no, **param)
 
 	cv2.imwrite('./results/'+img_fname.split('/')[-1], img_pred )
-
 	print("iou = ",iou_score(img_pred,cv2.imread(img_fname_gt,0)))
 
 	list_img.append(img_pred)
