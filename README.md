@@ -37,6 +37,8 @@ Put the models folder in the main directory, ./
 
 5. run the following 6 commands in order after downloading all dependencies (see conda_environment.yml)
 
+FOR DEEPLAB:
+
 -> python preprocess.py
 
 -> set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
@@ -50,3 +52,12 @@ Put the models folder in the main directory, ./
 -> python test.py
 
 The results of the refinement can be found in ./results
+
+
+FOR FCN-8:
+
+-> python preprocess.py
+
+-> cd fcn
+
+-> python infer.py
