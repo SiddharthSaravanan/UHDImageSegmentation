@@ -31,7 +31,7 @@ steps:
 
 4.Download the models/ frozen checkpoints here:
 deeplab v3+: https://drive.google.com/drive/folders/1uWHEtUyUHHSfOxXruzPaBa1PUvys_IIX?usp=sharing (download and place the research folder in ./models)
-FCN-8s: (download and place the folders in ./fcn)
+FCN-8s: https://drive.google.com/drive/folders/1wqzO4SKpEjyGERasPMuj52KKUk8IxfnB?usp=sharing (download and place the folders in ./fcn)
 
 The above is essentially deeplab v3+ with a few modifications made for our purposes (https://github.com/tensorflow/models/tree/master/research/deeplab)
 
@@ -42,7 +42,7 @@ The above is essentially deeplab v3+ with a few modifications made for our purpo
 
 -> python preprocess.py
 
-FOR DEEPLAB:
+FOR DEEPLAB (use conda_environment.yml for these steps) :
 
           -> set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
 
@@ -53,14 +53,14 @@ FOR DEEPLAB:
           -> python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
 
 
+FOR FCN-8 (use fcn_caffe_environment.yml for these steps):
+
+          -> cd fcn
+
+          -> python infer.py
+
+
+After the above steps the initial_segmentation_results folder will contain .npy files with the segmentation results. After this, run test_BIG.py or test_pascal.py to refine the intitial segmentations (use tensor-env.yml for this steps)
+
+
 The results of the refinement can be found in ./results
-
-
-FOR FCN-8:
-
--> cd fcn
-
--> python infer.py
-
-
-After the above steps the initial_segmentation_results folder will contain .npy files with the segmentation results. After this, run test_BIG.py or test_pascal.py to refine the intitial segmentations
