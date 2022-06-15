@@ -29,11 +29,13 @@ steps:
 3.Download the big test and validation datasets and put them in ./data/BIG
   download here: https://github.com/hkchengrex/CascadePSP/blob/master/docs/dataset.md
 
-4.Download the models/ frozen checkpoints here: https://drive.google.com/drive/folders/1uWHEtUyUHHSfOxXruzPaBa1PUvys_IIX?usp=sharing
+4.Download the models/ frozen checkpoints here:
+deeplab v3+: https://drive.google.com/drive/folders/1uWHEtUyUHHSfOxXruzPaBa1PUvys_IIX?usp=sharing (download and place the research folder in ./models)
+FCN-8s: (download and place the folders in ./fcn)
 
-This is essentially deeplab v3+ with a few modifications made for our purposes (https://github.com/tensorflow/models/tree/master/research/deeplab)
+The above is essentially deeplab v3+ with a few modifications made for our purposes (https://github.com/tensorflow/models/tree/master/research/deeplab)
 
-Put the models folder in the main directory, ./
+
 
 5. run the following 6 commands in order after downloading all dependencies (see conda_environment.yml)
 
@@ -49,7 +51,6 @@ FOR DEEPLAB:
 
 -> python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
 
--> python test.py
 
 The results of the refinement can be found in ./results
 
@@ -61,3 +62,6 @@ FOR FCN-8:
 -> cd fcn
 
 -> python infer.py
+
+
+After the above steps the initial_segmentation_results folder will contain .npy files with the segmentation results. After this, run test_BIG.py or test_pascal.py to refine the intitial segmentations
