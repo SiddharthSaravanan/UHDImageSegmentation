@@ -130,6 +130,9 @@ def _build_linear_system(edges, weights, labels, nlabels, mask, pixel_nb):
 def RW(edges, weights, seeds, **param):
     """
     """
+    if np.count_nonzero(seeds) == 0:
+        return seeds
+
     labels_shape = seeds.shape
     labels_dtype = seeds.dtype
     pixel_nb = seeds.shape[0]*seeds.shape[1]

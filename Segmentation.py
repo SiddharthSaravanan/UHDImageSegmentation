@@ -59,6 +59,7 @@ b[7] = np.array((
 def get_probs(prob_arr):
     if np.abs(np.sum(prob_arr) - (prob_arr.shape[0])*(prob_arr.shape[1])) < 2.0:
         return prob_arr
+    print("soft")
     return softmax(prob_arr,axis=2)
 
 def thinning(img, iterations):
@@ -193,6 +194,9 @@ def _get_seeds(img_prob, class_no, **param):
     seed_arr[not_sure==255]=127
     seed_arr[extra==255]=127
 
+    if param['dataset'] == 'pascal':
+        cv2.imwrite('seed.png',seed_arr)
+        return seed_arr
     #preparation for thinning
 
     thin = np.copy(seed_arr)
@@ -230,3 +234,12 @@ def get_seeds_UHD(img_fname, class_no, **param):
 
     seed_arr = _get_seeds(img_prob, class_no, **param)
     return seed_arr
+
+def get_seeds_PASCAL(img_fname, class_no, **param):
+    img = cv2.imread(img_fname)
+    output = np.load('./initial_segmentation_results/'+(img_fname.split('/')[-1]).split('.')[0]+'.npy')
+    output = get_probs(output)
+
+    seed_arr = _get_seeds(output, int(class_no), **param)
+    return seed_arr
+

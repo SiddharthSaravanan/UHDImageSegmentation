@@ -68,7 +68,7 @@ def generate_PASCAL_dataset():
     Return processed data in the form
     [year, img_name, class, gt/im, fname]
     """
-    list_names = os.listdir("./data/relabeled_pascal")
+    list_names = os.listdir("./data/pascal/val")
     PASCAL_data = []
     for fname in list_names:
         if fname.endswith(".png") or fname.endswith(".jpg"):
@@ -76,6 +76,6 @@ def generate_PASCAL_dataset():
             if tmp[3] == 'im':
                 fname_gt = fname.replace('im', 'gt')
                 fname_gt = fname_gt.replace('jpg', 'png')
-                PASCAL_data.append([tmp[0], tmp[1], tmp[2], tmp[3], "./data/relabeled_pascal/"+fname, "./data/relabeled_pascal/"+fname_gt])
+                PASCAL_data.append([tmp[0], tmp[1], tmp[2], tmp[3], "./data/pascal/val/"+fname, "./data/pascal/val/"+fname_gt])
     PASCAL_data = np.array(PASCAL_data)
     return PASCAL_data

@@ -17,6 +17,7 @@ def get_dollar_gradient(img_fname):
     """
     Uses the matlab functions to obtain dollar gradient.
     """
+
     print("generating gradient image:")
     eng = matlab.engine.start_matlab()
     eng.addpath('./edges/')
