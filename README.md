@@ -30,7 +30,9 @@ steps:
   download here: https://github.com/hkchengrex/CascadePSP/blob/master/docs/dataset.md
 
 4.Download the models/ frozen checkpoints here:
+
 deeplab v3+: https://drive.google.com/drive/folders/1uWHEtUyUHHSfOxXruzPaBa1PUvys_IIX?usp=sharing (download and place the research folder in ./models)
+
 FCN-8s: https://drive.google.com/drive/folders/1wqzO4SKpEjyGERasPMuj52KKUk8IxfnB?usp=sharing (download and place the folders in ./fcn)
 
 The above is essentially deeplab v3+ with a few modifications made for our purposes (https://github.com/tensorflow/models/tree/master/research/deeplab)
@@ -40,7 +42,7 @@ The above is essentially deeplab v3+ with a few modifications made for our purpo
 5. run the following commands in order after downloading all dependencies (see conda_environment.yml)
 
 
--> python preprocess.py
+          python preprocess.py
 
 FOR DEEPLAB (use conda_environment.yml for these steps) :
 
