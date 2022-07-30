@@ -44,20 +44,20 @@ The above is essentially deeplab v3+ with a few modifications made for our purpo
 
 FOR DEEPLAB (use conda_environment.yml for these steps) :
 
-          -> set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
+          set PYTHONPATH=.\models;.\models\research;.\models\research\slim;.\models\research\deeplab\datasets
 
-          -> set PATH=%PATH%;%PYTHONPATH%
+          set PATH=%PATH%;%PYTHONPATH%
 
-          -> python models/research/deeplab/datasets/build_voc2012_data.py --image_folder="./models/research/deeplab/datasets/im" --semantic_segmentation_folder="./models/research/deeplab/datasets/gt" --list_folder="./models/research/deeplab/datasets/pascal_voc_seg/VOCdevkit/VOC2012/ImageSets/Segmentation" --image_format="png" --output_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord"
+          python models/research/deeplab/datasets/build_voc2012_data.py --image_folder="./models/research/deeplab/datasets/im" --semantic_segmentation_folder="./models/research/deeplab/datasets/gt" --list_folder="./models/research/deeplab/datasets/pascal_voc_seg/VOCdevkit/VOC2012/ImageSets/Segmentation" --image_format="png" --output_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord"
 
-          -> python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
+          python models/research/deeplab/vis.py --logtostderr --vis_split="val" --model_variant="xception_65" --atrous_rates=12 --atrous_rates=24 --atrous_rates=36 --output_stride=8 --decoder_output_stride=4 --vis_crop_size="513,513" --dataset="pascal_voc_seg" --checkpoint_dir="./models/research/deeplab/datasets/pascal_voc_seg/init_models/deeplabv3_pascal_trainval" --vis_logdir="./models/research/deeplab/datasets/pascal_voc_seg/exp/train_on_trainval_set/vis" --dataset_dir="./models/research/deeplab/datasets/pascal_voc_seg/tfrecord" --max_number_of_iterations=1
 
 
 FOR FCN-8 (use fcn_caffe_environment.yml for these steps):
 
-          -> cd fcn
+          cd fcn
 
-          -> python infer.py
+          python infer.py
 
 
 After the above steps the initial_segmentation_results folder will contain .npy files with the segmentation results. After this, run test_BIG.py or test_pascal.py to refine the intitial segmentations (use tensor-env.yml for this steps)
