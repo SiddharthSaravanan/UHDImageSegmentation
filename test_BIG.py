@@ -8,23 +8,23 @@ from Datasets import generate_BIG_dataset
 from Segmentation import map_label_to_class
 
 param = {}
-# param['scale_larger_axis'] = 512.0
-# param['thin_iter'] = 35
-# param['prune_iter'] = 20
-# param['thresh_unsure'] = 0.03
-# param['beta'] = 11.30
-# param['eps'] = 1e-10
-# param['prob_tol'] = 1e-3
-# param['dataset'] = 'BIG'
-
 param['scale_larger_axis'] = 512.0
-param['thin_iter'] = 85
-param['prune_iter'] = 10
-param['thresh_unsure'] = 0.4
-param['beta'] = 10.8
+param['thin_iter'] = 35
+param['prune_iter'] = 20
+param['thresh_unsure'] = 0.03
+param['beta'] = 11.30
 param['eps'] = 1e-10
 param['prob_tol'] = 1e-3
 param['dataset'] = 'BIG'
+
+# param['scale_larger_axis'] = 512.0
+# param['thin_iter'] = 85
+# param['prune_iter'] = 10
+# param['thresh_unsure'] = 0.4
+# param['beta'] = 10.8
+# param['eps'] = 1e-10
+# param['prob_tol'] = 1e-3
+# param['dataset'] = 'BIG'
 
 
 BIG_test, BIG_val = generate_BIG_dataset()
